@@ -38,6 +38,12 @@ where
 
                     Ok((response, reason_phrase))
                 }
+                // Defensive code
+                #[cfg(all(not(feature = "h1__async_http1_lite")))]
+                _ => {
+                    debug_assert!(false, "unreachable");
+                    return Err(io::Error::new(io::ErrorKind::Other, "unreachable"));
+                }
             }
         } else if request.version() <= Version::HTTP_2 {
             // TODO, `curl -x https://proxy.lvh.me:9118 https://httpbin.org/ip -v --proxy-insecure` is very slow, maybe warning it is better.
