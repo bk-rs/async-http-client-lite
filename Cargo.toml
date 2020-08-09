@@ -1,0 +1,55 @@
+[package]
+name = "async-http-client-lite"
+version = "0.1.0"
+authors = ["vkill <vkill.net@gmail.com>"]
+edition = "2018"
+description = "Asynchronous http client."
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/bk-rs/async-http-client-lite"
+homepage = "https://github.com/bk-rs/async-http-client-lite"
+documentation = "https://docs.rs/async-http-client-lite"
+keywords = []
+categories = ["asynchronous"]
+readme = "README.md"
+
+[features]
+tls = ["async-stream-tls-upgrader/unionable_client"]
+tls__async_tls = ["tls", "async-stream-tls-upgrader/async_tls_client"]
+tls__async_native_tls = ["tls", "async-stream-tls-upgrader/async_native_tls_client"]
+
+http_tunnel = ["async-stream-http-tunnel-grader/unionable_client"]
+http_tunnel__async_http1_lite = ["http_tunnel", "async-stream-http-tunnel-grader/async_http1_lite_client"]
+
+h1__async_http1_lite = ["async-http1-lite"]
+
+ws__async_tungstenite = ["async-tungstenite"]
+
+connector = ["async-trait"]
+connector__async_net = ["connector", "async-net"]
+connector__async_std = ["connector", "async-std"]
+
+[dependencies]
+async-stream-packed = { version = "0.1", default-features = false, features = ["http"] }
+futures-io = { version = "0.3", default-features = false, features = ["std"] }
+http = { version = "0.2", default-features = false, features = [] }
+cfg-if = { version = "0.1", default-features = false, features = [] }
+
+async-stream-tls-upgrader = { version = "0.1", default-features = false, features = [], optional = true }
+
+async-stream-http-tunnel-grader = { version = "0.1", default-features = false, features = ["authorization"] }
+
+async-http1-lite = { version = "0.1", default-features = false, features = [], optional = true }
+
+async-tungstenite = { version = "0.8", default-features = false, features = [], optional = true }
+
+async-trait = { version = "0.1", default-features = false, features = [], optional = true }
+
+async-net = { version = "0.1", default-features = false, features = [], optional = true }
+
+async-std = { version = "1.6", default-features = false, features = ["default"], optional = true }
+
+[workspace]
+members = [
+    "demos/async_net",
+    "demos/async_std",
+]

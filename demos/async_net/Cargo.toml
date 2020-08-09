@@ -1,0 +1,44 @@
+[package]
+name = "async-http-client-lite-demo-async-net"
+version = "0.1.0"
+authors = ["vkill <vkill.net@gmail.com>"]
+edition = "2018"
+
+[[bin]]
+name = "http"
+path = "src/http.rs"
+
+[[bin]]
+name = "https"
+path = "src/https.rs"
+
+[[bin]]
+name = "https_with_https_proxy"
+path = "src/https_with_https_proxy.rs"
+
+[[bin]]
+name = "ws"
+path = "src/ws.rs"
+
+[[bin]]
+name = "ws_with_http_proxy"
+path = "src/ws_with_http_proxy.rs"
+
+[[bin]]
+name = "wss"
+path = "src/wss.rs"
+
+[[bin]]
+name = "wss_with_http_proxy"
+path = "src/wss_with_http_proxy.rs"
+
+[dependencies]
+async-http-client-lite = { path = "../..", version = "0.1", features = [
+    "tls__async_tls", "tls__async_native_tls",
+    "http_tunnel__async_http1_lite", 
+    "h1__async_http1_lite", 
+    "ws__async_tungstenite", 
+    "connector__async_net"
+] }
+futures = "0.3"
+async-tungstenite = "0.8"
