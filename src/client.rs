@@ -1,6 +1,4 @@
 use std::io;
-use std::pin::Pin;
-use std::task::{Context, Poll};
 
 use async_stream_packed::HttpClientInnerStream;
 use futures_io::{AsyncRead, AsyncWrite};
@@ -137,50 +135,5 @@ where
         } else {
             compile_error("unreachable")
         }
-    }
-}
-
-//
-//
-//
-impl<S> AsyncWrite for Client<S>
-where
-    S: AsyncRead + AsyncWrite + Unpin + Send,
-{
-    fn poll_write(
-        self: Pin<&mut Self>,
-        cx: &mut Context,
-        buf: &[u8],
-    ) -> Poll<Result<usize, io::Error>> {
-        let this = self.get_mut();
-
-        Pin::new(this.get_mut()).poll_write(cx, buf)
-    }
-
-    fn poll_flush(self: Pin<&mut Self>, cx: &mut Context) -> Poll<Result<(), io::Error>> {
-        let this = self.get_mut();
-
-        Pin::new(this.get_mut()).poll_flush(cx)
-    }
-
-    fn poll_close(self: Pin<&mut Self>, cx: &mut Context) -> Poll<Result<(), io::Error>> {
-        let this = self.get_mut();
-
-        Pin::new(this.get_mut()).poll_close(cx)
-    }
-}
-
-impl<S> AsyncRead for Client<S>
-where
-    S: AsyncRead + AsyncWrite + Unpin + Send,
-{
-    fn poll_read(
-        self: Pin<&mut Self>,
-        cx: &mut Context,
-        buf: &mut [u8],
-    ) -> Poll<Result<usize, io::Error>> {
-        let this = self.get_mut();
-
-        Pin::new(this.get_mut()).poll_read(cx, buf)
     }
 }
